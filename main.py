@@ -24,17 +24,42 @@ while True:
         x1, y1 = face.right(), face.bottom()
 
         landmarks = predictor(gray, face)
-        left_point = (landmarks.part(36).x, landmarks.part(36).y)
-        right_point = (landmarks.part(39).x, landmarks.part(39).y)
-        center_top = midpoint(landmarks.part(37), landmarks.part(38))
-        center_bottom = midpoint(landmarks.part(41), landmarks.part(40))
 
-        hor_line = cv2.line(frame, left_point, right_point, (0, 255, 0), 1)
-        ver_line = cv2.line(frame, center_top, center_bottom, (0, 255, 0), 2)
+        # le stands for left eye
+        # le coordinates and lines
+        le_left_point = (landmarks.part(36).x, landmarks.part(36).y)
+        le_right_point = (landmarks.part(39).x, landmarks.part(39).y)
+        le_center_top = midpoint(landmarks.part(37), landmarks.part(38))
+        le_center_bottom = midpoint(landmarks.part(41), landmarks.part(40))
+
+        le_hor_line = cv2.line(frame, le_left_point,
+                               le_right_point, (0, 255, 0), 1)
+        le_ver_line = cv2.line(frame, le_center_top,
+                               le_center_bottom, (0, 255, 0), 2)
+
+        # re stands for right eye
+        # re coordinates and lines
+        re_left_point = (landmarks.part(42).x, landmarks.part(42).y)
+        re_right_point = (landmarks.part(45).x, landmarks.part(45).y)
+        re_center_top = midpoint(landmarks.part(43), landmarks.part(44))
+        re_center_bottom = midpoint(landmarks.part(47), landmarks.part(46))
+
+        re_hor_line = cv2.line(frame, re_left_point,
+                               re_right_point, (0, 255, 0), 1)
+        re_ver_line = cv2.line(frame, re_center_top,
+                               re_center_bottom, (0, 255, 0), 2)
+
+        # gaze detection
+        left_eye_region = np.array([(landmarks.part(36).x, landmarks.part(36).y),
+                                    (landmarks.part(37).x, landmarks.part(37).y),
+                                    (landmarks.part(38).x, landmarks.part(38).y),
+                                    (landmarks.part(39).x, landmarks.part(39).y),
+                                    (landmarks.part(40).x, landmarks.part(40).y),
+                                    (landmarks.part(41).x, landmarks.part(41).y], np.int32)
 
     cv2.imshow("Frame", frame)
 
-    key = cv2.waitKey(1)
+    key=cv2.waitKey(1)
     if key == 27:
         break
 
